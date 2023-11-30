@@ -4,7 +4,7 @@ with source as (
 
     select * from {{ source('tpch', 'customer') }}
 
-),finali as (
+),finalo as (
 
     select
     
@@ -63,5 +63,5 @@ with source as (
 
 
 
-select * from finali
+select * from finalo
 
