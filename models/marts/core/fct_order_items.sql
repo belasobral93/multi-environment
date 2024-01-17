@@ -15,7 +15,7 @@ part_supplier as (
     select * from {{ ref('part_suppliers') }}
 
 ),
-final as (
+finale as (
     select 
         order_item.order_item_key,
         order_item.order_key,
@@ -54,6 +54,6 @@ final as (
 select 
     *
 from
-    final
+    finale
 order by
     order_date
