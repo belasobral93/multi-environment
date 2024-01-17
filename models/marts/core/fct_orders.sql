@@ -28,7 +28,7 @@ order_item_summary as (
     group by
         1
 ),
-finale as (
+finalt as (
 
     select 
 
@@ -53,7 +53,7 @@ finale as (
 select 
     *
 from
-    finale
+    finalt
 
 order by
     order_date
