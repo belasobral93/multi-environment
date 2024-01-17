@@ -16,7 +16,7 @@ part_supplier as (
 
 ),
 
-final as (
+finals as (
     select 
 
     part_supplier.part_supplier_key,
@@ -50,4 +50,4 @@ order by
     part.part_key
 )
 
-select * from final
+select * from finals
