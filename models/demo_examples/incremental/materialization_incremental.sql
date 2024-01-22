@@ -2,6 +2,7 @@
     config(
         materialized='incremental',
         unique_key='order_id',
+        full_refresh = true
     )
 }}
 
