@@ -26,7 +26,7 @@ union select
     cast('2018-01-02' as date) as order_date,
     cast('2018-01-02' as date) as modified_at
     ,
-    'mobile' as platform
+    'desktop' as platform
 
 
 -- -- -- add a record that conflicts with a previous order_id
