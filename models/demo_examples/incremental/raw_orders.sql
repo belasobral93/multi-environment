@@ -5,7 +5,8 @@ select
     1 as customer_id,
     'cancelled' as status,
     cast('2018-01-01' as date) as order_date,
-    cast('2018-01-01' as date) as modified_at,
+    cast('2018-01-01' as date) as modified_at
+    ,
     'mobile' as platform
 
 union select
@@ -13,7 +14,8 @@ union select
     1 as customer_id,
     'completed' as status,
     cast('2018-01-02' as date) as order_date,
-    cast('2018-01-02' as date) as modified_at,
+    cast('2018-01-02' as date) as modified_at
+    ,
     'mobile' as platform
 
 -- add a new record
@@ -22,7 +24,8 @@ union select
     '2' as customer_id,
     'completed' as status,
     cast('2018-01-02' as date) as order_date,
-    cast('2018-01-02' as date) as modified_at,
+    cast('2018-01-02' as date) as modified_at
+    ,
     'mobile' as platform
 
 
