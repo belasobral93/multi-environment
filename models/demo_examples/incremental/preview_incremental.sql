@@ -1,0 +1,1 @@
+select * from {{ ref('materialization_incremental') }}
