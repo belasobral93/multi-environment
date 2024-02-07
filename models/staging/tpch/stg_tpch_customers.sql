@@ -4,7 +4,7 @@ with source as (
 
     select * from {{ source('tpch', 'customer') }}
 
-),brand_new as (
+),brand_news as (
 
     select
     
@@ -20,5 +20,5 @@ with source as (
     from source
 
 )
-select * from brand_new
+select * from brand_news
 
