@@ -7,6 +7,8 @@ packages:
   version: 0.8.2
 - package: calogica/dbt_expectations
   version: 0.8.3
+- package: dbt-labs/audit_helper
+  version: 0.11.0
 - package: calogica/dbt_date
   version: 0.7.2
-sha1_hash: d653581c637610419c81c848bca9328841d5de0c
+sha1_hash: 1e6d9c1d24cb2dece95a23415a072f4f7aebc90c
