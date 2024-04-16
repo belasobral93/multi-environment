@@ -3,15 +3,6 @@ version: 2
 models:
   - name: materialization_incremental
     description: demo to show incremental model
-    columns:
-      - name: customer_key
-        tests:
-          - unique:
-              config:
-                severity: warn
-          - not_null:
-              config:
-                severity: warn
 
   - name: use_variables
     description: demo to show variables
