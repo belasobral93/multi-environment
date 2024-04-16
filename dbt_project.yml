@@ -54,8 +54,6 @@ models:
       core:
         +materialized: table
 
-      ml:
-        +materialized: table
 
       
 seeds:
