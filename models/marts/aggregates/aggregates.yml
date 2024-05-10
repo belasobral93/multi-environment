@@ -15,10 +15,14 @@ models:
         description: year of the order
       
   - name: monthly_gross_revenue
+    description: Aggregates total gross sales revenue from the fct_order_items table at a monthly level. 
     columns:
       - name: order_month
         tests:
           - unique
+      - name: gross_revenue
+        description: Total gross revenue accumulated from all sales within each month
+          
 
 exposures:
   
