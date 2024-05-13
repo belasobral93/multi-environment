@@ -1,0 +1,23 @@
+version: 2
+models:
+  - name: recent_orders
+    description: staging layer for orders data
+    tests:
+      - elementary.volume_anomalies:
+          severity: warn
+          alias: "daily_order_volume_check"
+          timestamp_column: "order_date"
+          anomaly_sensitivity: 1  # Increase sensitivity to detect smaller changes
+          anomaly_direction: "both"
+          detection_period:
+            period: "day"
+            count: 1
+          training_period:
+            period: "week"
+            count: 2
+          time_bucket:
+            period: "day"
+            count: 1
+
+
+    

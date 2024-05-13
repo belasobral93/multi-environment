@@ -12,7 +12,6 @@ sources:
     tables:
       - name: orders
         description: main order tracking table
-        
         columns:
           - name: o_orderkey
             description: SF*1,500,000 are sparsely populated
@@ -39,8 +38,7 @@ sources:
           - name: o_shippriority
             description: numeric representation of the shipping priority, zero being the default
           - name: o_comment
-            description: '{{ doc("comment") }}'
-          
+
       - name: customer
         description: main customer table
         columns:

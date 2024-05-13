@@ -92,6 +92,21 @@ models:
  
   - name: stg_tpch_orders
     description: staging layer for orders data
+    tests:
+      - elementary.volume_anomalies:
+          timestamp_column: "order_date"
+          anomaly_sensitivity: 3
+          anomaly_direction: "both"
+          detection_period:
+            period: "day"
+            count: 1
+          training_period:
+            period: "week"
+            count: 4
+          time_bucket:
+            period: "day"
+            count: 1
+
     columns:
       - name: order_key
         description: primary key of the model
