@@ -1,0 +1,50 @@
+version: 2
+
+metrics:
+  - name: total_orders
+    description: "The total number of orders."
+    type: simple
+    label: "Total Orders"
+    type_params:
+      measure: order_item_count
+
+  - name: total_quantity
+    description: "The total quantity of items ordered."
+    type: simple
+    label: "Total Quantity"
+    type_params:
+      measure: quantity
+
+  - name: total_sales
+    description: "The total sales amount."
+    type: simple
+    label: "Total Sales"
+    type_params:
+      measure: net_item_sales_amount
+
+  - name: recent_orders
+    description: "The total number of recent orders in the last 30 days."
+    type: simple
+    label: "Recent Orders"
+    type_params:
+      measure: order_item_count
+    filter: |
+      {{ Dimension('order_date') }} >= current_date() - interval '30 day'
+
+  - name: recent_quantity
+    description: "The total quantity of items ordered in the last 30 days."
+    type: simple
+    label: "Recent Quantity"
+    type_params:
+      measure: quantity
+    filter: |
+      {{ Dimension('order_date') }} >= current_date() - interval '30 day'
+
+  - name: recent_sales
+    description: "The total sales amount in the last 30 days."
+    type: simple
+    label: "Recent Sales"
+    type_params:
+      measure: net_item_sales_amount
+    filter: |
+      {{ Dimension('order_date') }} >= current_date() - interval '30 day'
