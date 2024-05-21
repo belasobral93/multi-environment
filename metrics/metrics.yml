@@ -48,3 +48,13 @@ metrics:
       measure: net_item_sales_amount
     filter: |
       {{ Dimension('order_date') }} >= current_date() - interval '30 day'
+
+  - name: average_customer_balance
+    description: "The average account balance per customer."
+    type: derived
+    label: "Average Customer Balance"
+    type_params:
+      expr: total_sales / customer_count
+      metrics:
+        - name: total_sales
+        - name: customer_count
