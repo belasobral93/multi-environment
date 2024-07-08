@@ -24,6 +24,9 @@ models:
     description: Aggregates total gross sales revenue from the fct_order_items table at a monthly level. 
     group: sales
     access: public
+    config:
+      contract:
+        enforced: true
     columns:
       - name: order_month
         tests:
