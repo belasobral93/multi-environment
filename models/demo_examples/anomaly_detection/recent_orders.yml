@@ -1,23 +1,24 @@
 version: 2
 models:
-  - name: recent_orders
-    description: staging layer for orders data
+  - name: staging_orders_seed
+    description: staging layer for orders data with up to date dates
     tests:
       - elementary.volume_anomalies:
-          severity: warn
-          alias: "daily_order_volume_check"
-          timestamp_column: "order_date"
-          anomaly_sensitivity: 1  # Increase sensitivity to detect smaller changes
-          anomaly_direction: "both"
+          timestamp_column: NEW_ORDER_DATE
+          anomaly_sensitivity: 1
+          anomaly_direction: both
           detection_period:
-            period: "day"
+            period: day
             count: 1
           training_period:
-            period: "week"
-            count: 2
+            period: day
+            count: 7
           time_bucket:
-            period: "day"
+            period: day
+            count: 1
+          seasonality: day_of_week
+          fail_on_zero: true
+          detection_delay:
+            period: day
             count: 1
 
-
-    

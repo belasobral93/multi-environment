@@ -63,3 +63,6 @@ seeds:
       +column_types:
         effective_date: DATE
         rate: NUMBER   
+
+flags:
+  require_explicit_package_overrides_for_builtin_materializations: false
