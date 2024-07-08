@@ -1,13 +1,4 @@
 order_key,customer_key,status_code,total_price,order_date
-1,1001,pending,105,2024-04-28
-2,1002,shipped,110,2024-04-29
-3,1003,pending,115,2024-04-30
-4,1004,shipped,120,2024-05-01
-5,1005,pending,125,2024-05-02
-6,1006,shipped,130,2024-05-03
-7,1007,pending,135,2024-05-04
-8,1008,shipped,140,2024-05-05
-9,1009,pending,145,2024-05-05
 10,1010,shipped,150,2024-05-05
 11,1011,pending,155,2024-05-05
 12,1012,shipped,160,2024-05-05
@@ -74,5 +65,8 @@ order_key,customer_key,status_code,total_price,order_date
 73,1073,pending,465,2024-05-11
 74,1074,shipped,470,2024-05-11
 75,1075,pending,475,2024-05-11
-76,1076,shipped,480,2024-05-11
-77,1077,pending,485,2024-05-11
+76,1076,shipped,480,2024-05-12
+77,1077,pending,485,2024-05-12
+78,1078,shipped,490,2024-05-12
+79,1078,shipped,490,2024-05-13
+80,1078,shipped,490,2024-05-14
