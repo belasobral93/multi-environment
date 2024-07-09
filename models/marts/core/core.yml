@@ -16,7 +16,7 @@ models:
               values: ['AFRICA','MIDDLE EAST','ASIA','EUROPE','AMERICA']
               severity: warn
       - name: name
-        description: customer id
+        description: customer name
       - name: address
         description: address of the customer
       - name: nation
