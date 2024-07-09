@@ -46,8 +46,8 @@ select
     ((gross_item_sales_amount + item_discount_amount) * line_item.tax_rate){{ money() }} as item_tax_amount,
     (
         gross_item_sales_amount 
-        -- + item_discount_amount 
-        -- + item_tax_amount
+        + DISCOUNTED_ITEM_SALES_AMOUNT 
+        + item_tax_amount
     ){{ money() }} as net_item_sales_amount
 
 from
