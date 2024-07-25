@@ -8,6 +8,9 @@ models:
     columns:
       - name: order_item_key
         description: '{{ doc("order_item_key") }}'
+        tests:
+          - unique
+          - not_null
       - name: order_key
         description: foreign key for orders
       - name: customer_key
