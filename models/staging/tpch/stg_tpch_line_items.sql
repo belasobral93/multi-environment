@@ -35,12 +35,12 @@ renamed as (
             else null
         end as status_code,
         
-        l_shipdate as ship_date,
-        l_commitdate as commit_date,
-        l_receiptdate as receipt_date,
-        l_shipinstruct as ship_instructions,
-        l_shipmode as ship_mode,
-        l_comment as comment
+        -- l_shipdate as ship_date,
+        -- l_commitdate as commit_date,
+        -- l_receiptdate as receipt_date,
+        -- l_shipinstruct as ship_instructions,
+        -- l_shipmode as ship_mode,
+        -- l_comment as comment
 
     from source
 
