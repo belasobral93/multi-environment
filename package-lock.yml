@@ -1,16 +1,16 @@
 packages:
   - package: dbt-labs/codegen
-    version: 0.9.0
+    version: 0.12.1
   - package: dbt-labs/dbt_utils
     version: 1.1.1
   - package: dbt-labs/dbt_external_tables
     version: 0.8.2
   - package: calogica/dbt_expectations
-    version: 0.8.3
+    version: 0.10.4
   - package: dbt-labs/audit_helper
     version: 0.12.0
   - package: elementary-data/elementary
     version: 0.15.2
   - package: calogica/dbt_date
-    version: 0.7.2
-sha1_hash: 65bf5d3a059b825aa07433c947528575794b2bf7
+    version: 0.10.1
+sha1_hash: 8546f06b32f0a36dc9b9be8fdad2831392aaba6c
