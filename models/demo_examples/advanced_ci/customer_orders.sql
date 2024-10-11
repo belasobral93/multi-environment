@@ -12,12 +12,7 @@ customer_order_summary as (
         nation,
         phone_number,
         count(order_key) as total_order_count,
-        sum(
-            case 
-                when customer_key = 358 then 800000  
-                else gross_item_sales_amount 
-            end
-        ) as total_gross_sales,
+        sum(gross_item_sales_amount * 1.1) as total_gross_sales,
         sum(item_discount_amount) as total_discount_amount,
         sum(item_tax_amount) as total_tax_amount,
         sum(net_item_sales_amount) as total_net_sales,
