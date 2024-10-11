@@ -1,0 +1,43 @@
+models:
+  - name: customer_orders
+    columns:
+      - name: customer_key
+        tests:
+          - unique
+          - not_null
+      - name: name
+        tests:
+          - not_null
+      - name: region
+        tests:
+          - not_null
+      - name: nation
+        tests:
+          - not_null
+      - name: phone_number
+        tests:
+          - not_null
+      - name: total_order_count
+        tests:
+          - not_null
+      - name: total_gross_sales
+        tests:
+          - not_null
+      - name: total_discount_amount
+        tests:
+          - not_null
+      - name: total_tax_amount
+        tests:
+          - not_null
+      - name: total_net_sales
+        tests:
+          - not_null
+      - name: total_return_count
+        tests:
+          - not_null
+      - name: first_order_date
+        tests:
+          - not_null
+      - name: last_order_date
+        tests:
+          - not_null
