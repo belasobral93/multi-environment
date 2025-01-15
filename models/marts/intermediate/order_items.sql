@@ -18,10 +18,11 @@ select
     line_item.part_key,
     line_item.supplier_key,
     orders.order_date,
+    orders.order_time,
     orders.status_code as order_status_code,
     
     
-    line_item.return_flag,
+    line_item.is_return,
     
     line_item.line_number,
     line_item.status_code as order_item_status_code,
@@ -45,9 +46,9 @@ select
     line_item.tax_rate,
     ((gross_item_sales_amount + item_discount_amount) * line_item.tax_rate){{ money() }} as item_tax_amount,
     (
-        gross_item_sales_amount 
-        + DISCOUNTED_ITEM_SALES_AMOUNT 
-        + item_tax_amount
+        gross_item_sales_amount + 
+        item_discount_amount + 
+        item_tax_amount
     ){{ money() }} as net_item_sales_amount
 
 from
