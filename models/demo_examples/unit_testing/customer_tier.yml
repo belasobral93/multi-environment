@@ -22,7 +22,7 @@ unit_tests:
           - {customer_key: 4}
           - {customer_key: 1}
           - {customer_key: 26}
-          - {customer_key: 33}
+          - {customer_key: 36}
 
 
       - input: ref('stg_tpch_orders')
