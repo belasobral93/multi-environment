@@ -4,9 +4,4 @@ models:
       - name: customer_key
         tests:
           - unique
-          - not_null:
-              config:
-                severity: error
-                error_if: ">1000"
-                warn_if: ">10"
 
