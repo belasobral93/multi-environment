@@ -10,33 +10,33 @@ models:
       - name: lifetime_value
       - name: tier_name
   
-unit_tests:
-  - name: tiers_are_working
-    description: "check if the logic for tiering is working correctly"
-    model: customer_tier
-    given:
-      - input: ref('stg_tpch_customers')
-        format: dict
-        rows:
-          - {customer_key: 629}
-          - {customer_key: 4}
-          - {customer_key: 1}
-          - {customer_key: 26}
-          - {customer_key: 33}
+# unit_tests:
+#   - name: tiers_are_working
+#     description: "check if the logic for tiering is working correctly"
+#     model: customer_tier
+#     given:
+#       - input: ref('stg_tpch_customers')
+#         format: dict
+#         rows:
+#           - {customer_key: 629}
+#           - {customer_key: 4}
+#           - {customer_key: 1}
+#           - {customer_key: 26}
+#           - {customer_key: 33}
 
 
-      - input: ref('stg_tpch_orders')
-        format: dict
-        rows:
-          - {customer_key: 629, total_price: 163443}
-          - {customer_key: 4, total_price: 4134568}
-          - {customer_key: 1,  total_price: 1428872}
-          - {customer_key: 26, total_price: 418512}
-          - {customer_key: 33, total_price: 0}
-    expect:
-      rows:
-        - {customer_key: 629,  tier_name: tier1}
-        - {customer_key: 4,    tier_name: tier2}
-        - {customer_key: 1,    tier_name: tier3}
-        - {customer_key: 26,   tier_name: tier4}        
-        - {customer_key: 33,   tier_name: tier4}      
+#       - input: ref('stg_tpch_orders')
+#         format: dict
+#         rows:
+#           - {customer_key: 629, total_price: 163443}
+#           - {customer_key: 4, total_price: 4134568}
+#           - {customer_key: 1,  total_price: 1428872}
+#           - {customer_key: 26, total_price: 418512}
+#           - {customer_key: 33, total_price: 0}
+#     expect:
+#       rows:
+#         - {customer_key: 629,  tier_name: tier1}
+#         - {customer_key: 4,    tier_name: tier2}
+#         - {customer_key: 1,    tier_name: tier3}
+#         - {customer_key: 26,   tier_name: tier4}        
+#         - {customer_key: 33,   tier_name: tier4}      

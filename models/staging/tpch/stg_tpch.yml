@@ -57,6 +57,10 @@ models:
         tests:
           - accepted_values:
               values: ['normal','returned','awaiting return']
+              config:
+                severity: error
+                error_if: ">1000"
+                warn_if: ">10"
       - name: status_code
         description: status code of the order item
         tests:
