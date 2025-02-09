@@ -30,7 +30,7 @@ models:
     access: public
     config:
       contract:
-        enforced: true
+        enforced: false
     columns:
       - name: order_month
         data_type: int

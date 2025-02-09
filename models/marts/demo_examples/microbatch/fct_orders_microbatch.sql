@@ -5,7 +5,7 @@
         event_time='order_time',
         batch_size='day',
         lookback=3,
-        begin='1993-01-01',
+        begin='2025-01-11',
         full_refresh=False,
         tags = ['finance']
     )
@@ -31,7 +31,7 @@ order_item_summary as (
         sum(item_discount_amount) as item_discount_amount,
         sum(item_tax_amount) as item_tax_amount,
         sum(net_item_sales_amount) as net_item_sales_amount,
-        count_if(is_return = true) as return_count
+        count_if(return_flag = true) as return_count
     from order_item
     group by
         1
@@ -69,4 +69,4 @@ from
     final
 
 order by
-    order_date
+    order_date DESC

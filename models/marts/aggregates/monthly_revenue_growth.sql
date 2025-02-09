@@ -8,7 +8,7 @@ with monthly_revenue as (
 revenue_lag as (
     select
         order_month,
-        gross_revenue * 1.5,
+        gross_revenue,
         lag(gross_revenue) over (order by order_month) as previous_month_revenue
     from monthly_revenue
 )

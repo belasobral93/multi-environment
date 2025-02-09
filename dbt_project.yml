@@ -53,8 +53,6 @@ models:
     marts:
       core:
         +materialized: table
-  elementary:
-    +schema: "elementary"
 
       
 seeds:

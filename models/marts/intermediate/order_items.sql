@@ -18,11 +18,10 @@ select
     line_item.part_key,
     line_item.supplier_key,
     orders.order_date,
-    orders.order_time,
     orders.status_code as order_status_code,
     
     
-    line_item.is_return,
+    line_item.return_flag,
     
     line_item.line_number,
     line_item.status_code as order_item_status_code,
