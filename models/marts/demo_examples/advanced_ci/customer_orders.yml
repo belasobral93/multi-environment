@@ -1,0 +1,7 @@
+models:
+  - name: customer_orders
+    columns:
+      - name: customer_key
+        tests:
+          - unique
+
