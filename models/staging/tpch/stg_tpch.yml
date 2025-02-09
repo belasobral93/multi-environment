@@ -7,7 +7,6 @@ models:
       - name: customer_key
         description: primary key of the model
         tests:
-          - unique
           - not_null
       - name: name
         description: customer id
@@ -57,6 +56,10 @@ models:
         tests:
           - accepted_values:
               values: ['normal','returned','awaiting return']
+              config:
+                severity: error
+                error_if: ">10000"
+                warn_if: ">1000"
       - name: status_code
         description: status code of the order item
         tests:

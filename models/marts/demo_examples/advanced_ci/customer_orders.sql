@@ -6,13 +6,13 @@ with customer_order_seed as (
 customer_order_summary as (
     -- Aggregating customer-level order metrics
     select
-        customer_key,
+        NULL as customer_key,
         name,
         region,
         nation,
         phone_number,
         count(order_key) as total_order_count,
-        sum(gross_item_sales_amount) as total_gross_sales,
+        sum(gross_item_sales_amount * 1.09) as total_gross_sales,
         sum(item_discount_amount) as total_discount_amount,
         sum(item_tax_amount) as total_tax_amount,
         sum(net_item_sales_amount) as total_net_sales,
