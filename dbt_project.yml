@@ -28,7 +28,6 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 on-run-start:
   - "alter warehouse transforming set warehouse_size=small;"
-  - '{{create_udfs()}}' # comment / uncomment this line to build UDFs called in the create_udfs macro
 
 on-run-end:
   - "alter warehouse transforming set warehouse_size=xsmall;"
@@ -40,7 +39,7 @@ vars:
   fct_order_items: 'mock_source__fct_order_items' # this is a map for unit testing
   surrogate_key_treat_nulls_as_empty_strings: true #turn on dbt_utils legacy behavior
   vars:
-  'dbt_date:time_zone': 'Europe/Frankfurt'
+  'dbt_date:time_zone': 'America/Los_Angeles'
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models

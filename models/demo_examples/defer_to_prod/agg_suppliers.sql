@@ -1,5 +1,10 @@
-
-
+{{
+    config(
+        pre_hook = [
+        "drop TABLE IF EXISTS IDENTIFIER('SA_ISABELA_1_DEV.DBT_ISOBRAL.DIM_SUPPLIERS')"
+        ]
+    )
+}}
 with supplier_aggregated as (
 
     select
