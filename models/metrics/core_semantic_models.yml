@@ -1,0 +1,96 @@
+models:
+  - name: time_spine
+    time_spine:
+      standard_granularity_column: date_day # column for the standard grain of your table
+    columns:
+      - name: date_day
+        granularity: day # set granularity at column-level for standard_granularity_column
+      - name: almost_fiscal_quarter
+
+semantic_models:
+- name: customers
+  description: Customer dimensions table
+  model: ref('dim_customers')
+  entities:
+  - name: customer
+    type: primary
+    expr: customer_key
+  dimensions:
+  - name: name
+    description: customer name
+    type: categorical
+  - name: address
+    description: address of the customer
+    type: categorical
+  - name: nation
+    description: nation name
+    type: categorical
+  - name: region
+    description: region name
+    type: categorical
+  - name: phone_number
+    description: phone number of the customer
+    type: categorical
+  - name: market_segment
+    description: market segment of the customer
+    type: categorical
+
+- name: orders
+  description: Orders fact table containing details about each order and its associated
+    metrics.
+  model: ref('fct_orders')
+  defaults:
+    agg_time_dimension: date
+  entities:
+  - name: order
+    type: primary
+    expr: order_key
+  - name: customer
+    type: foreign
+    expr: customer_key
+  dimensions:
+  - name: date
+    expr: order_date
+    type: time
+    type_params:
+      time_granularity: day
+  - name: status_code
+    type: categorical
+  - name: priority_code
+    type: categorical
+  - name: clerk_name
+    type: categorical
+  - name: ship_priority
+    type: categorical
+  measures:
+  - name: order_count
+    description: Number of orders including returns.
+    agg: sum
+    create_metric: true
+  - name: return_count
+    description: Count of returned items in the order.
+    agg: sum
+    create_metric: true
+  - name: gross_item_sales_amount
+    description: Total gross sales amount for items in the order.
+    agg: sum
+    create_metric: true
+  - name: item_discount_amount
+    description: Total discount amount for items in the order.
+    agg: sum
+    create_metric: true
+  - name: item_tax_amount
+    description: Total tax amount for items in the order.
+    agg: sum
+    create_metric: true
+  - name: net_item_sales_amount
+    description: Total net sales amount for items in the order.
+    agg: sum
+  - name: count_order
+    agg: count
+    expr: order_key
+    create_metric: true
+  - name: unique_customers
+    description: "Count of unique customers placing orders."
+    expr: COUNT(DISTINCT customer_id)
+    agg: count_distinct

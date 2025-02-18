@@ -1,0 +1,21 @@
+models:  
+  - name: monthly_gross_revenue
+    description: Aggregates total gross sales revenue from the fct_order_items table at a monthly level. 
+    group: sales
+    access: public
+    config:
+      contract:
+        enforced: false
+    columns:
+      - name: order_month
+        data_type: int
+        tests:
+          - unique
+      - name: gross_revenue
+        data_type: int
+        description: Total gross revenue accumulated from all sales within each month
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              column_name: GROSS_REVENUE
+              min_value: 1000000  # Minimum expected monthly revenue
+              max_value: 1000000000  # Maximum expected monthly revenue
