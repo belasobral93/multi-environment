@@ -1,0 +1,32 @@
+metrics:
+- name: revenue
+  label: "Revenue"
+  type: simple
+  description: "Total revenue after discounts and tax"
+  type_params: 
+    measure: 
+      name: net_item_sales_amount
+
+- name: avg_order_value
+  label: "Average Order Value"
+  type: ratio
+  type_params:
+    numerator: 
+      name: revenue
+    denominator: 
+      name: count_order
+  description: "Average revenue per order"
+
+saved_queries:
+- name: revenue_by_market_segment
+  label: "Revenue and Returns by Market Segment"
+  description: "Analyzes revenue, return rate, and average order value across different customer market segments over time."
+  query_params: 
+    metrics:
+      - revenue
+      - avg_order_value 
+    group_by:
+        - Dimension('customer__market_segment')  # Groups by dimension from customers semantic model
+    where:
+      - "{{ Dimension('order__status_code')}} = 'F'"
+
