@@ -90,7 +90,7 @@ semantic_models:
     agg: count
     expr: order_key
     create_metric: true
-  - name: count_customer
+  - name: unique_customers
+    description: "Count of unique customers placing orders."
+    expr: COUNT(DISTINCT customer_id)
     agg: count_distinct
-    create_metric: true
-    expr: customer_key
