@@ -1,4 +1,13 @@
 metrics:
+
+- name: total_orders
+  label: "Total Orders"
+  type: simple
+  description: "total number of orders"
+  type_params: 
+    measure: 
+      name: count_order
+
 - name: revenue
   label: "Revenue"
   type: simple
@@ -15,7 +24,7 @@ metrics:
     numerator: 
       name: revenue
     denominator: 
-      name: count_order
+      name: total_orders
   description: "Average revenue per order"
 
 saved_queries: #dbt sl query --saved-query revenue_by_market_segment

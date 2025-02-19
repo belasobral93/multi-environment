@@ -35,61 +35,42 @@ semantic_models:
     type: categorical
 
 - name: orders
-  description: Orders fact table containing details about each order and its associated
-    metrics.
+  description: Orders fact table containing details about each order and its associated metrics.
   model: ref('fct_orders')
   defaults:
     agg_time_dimension: date #useful if time dim has very fine grain but queries typically roll up
   entities:
-  - name: order
-    type: primary
-    expr: order_key
-  - name: customer
-    type: foreign
-    expr: customer_key
+    - name: order
+      type: primary
+      expr: order_key
+    - name: customer
+      type: foreign
+      expr: customer_key
   dimensions:
-  - name: date
-    expr: order_date
-    type: time
-    type_params:
-      time_granularity: day
-  - name: status_code
-    type: categorical
-  - name: priority_code
-    type: categorical
-  - name: clerk_name
-    type: categorical
-  - name: ship_priority
-    type: categorical
+    - name: date
+      expr: order_date
+      type: time
+      type_params:
+        time_granularity: day
+    - name: status_code
+      type: categorical
+    - name: priority_code
+      type: categorical
+    - name: clerk_name
+      type: categorical
+    - name: ship_priority
+      type: categorical
   measures:
-  - name: order_count
-    description: Number of orders including returns.
-    agg: sum
-    create_metric: true
-  - name: return_count
-    description: Count of returned items in the order.
-    agg: sum
-    create_metric: true
-  - name: gross_item_sales_amount
-    description: Total gross sales amount for items in the order.
-    agg: sum
-    create_metric: true
-  - name: item_discount_amount
-    description: Total discount amount for items in the order.
-    agg: sum
-    create_metric: true
   - name: item_tax_amount
     description: Total tax amount for items in the order.
     agg: sum
-    create_metric: true
   - name: net_item_sales_amount
     description: Total net sales amount for items in the order.
     agg: sum
   - name: count_order
     agg: count
     expr: order_key
-    create_metric: true
   - name: unique_customers
     description: "Count of unique customers placing orders."
-    expr: COUNT(DISTINCT customer_id)
+    expr: COUNT(DISTINCT customer_key)
     agg: count_distinct
