@@ -6,8 +6,9 @@ metrics:
   type_params: 
     measure: 
       name: net_item_sales_amount
+  time_granularity: month 
 
-- name: avg_order_value
+- name: avg_order_value #dbt sl query --metrics avg_order_value
   label: "Average Order Value"
   type: ratio
   type_params:
@@ -17,7 +18,7 @@ metrics:
       name: count_order
   description: "Average revenue per order"
 
-saved_queries:
+saved_queries: #dbt sl query --saved-query revenue_by_market_segment
 - name: revenue_by_market_segment
   label: "Revenue and Returns by Market Segment"
   description: "Analyzes revenue, return rate, and average order value across different customer market segments over time."
@@ -26,7 +27,18 @@ saved_queries:
       - revenue
       - avg_order_value 
     group_by:
+        - Dimension('order__date')
         - Dimension('customer__market_segment')  # Groups by dimension from customers semantic model
     where:
       - "{{ Dimension('order__status_code')}} = 'F'"
+
+- name: avg_order_value_by_customer
+  label: "avergae order value by customer"
+  description: "order value by customer name"
+  query_params: 
+    metrics:
+      - avg_order_value 
+    group_by:
+        - Dimension('customer__name')  # Groups by dimension from customers semantic model
+
 

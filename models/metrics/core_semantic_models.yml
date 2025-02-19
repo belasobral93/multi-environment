@@ -5,7 +5,6 @@ models:
     columns:
       - name: date_day
         granularity: day # set granularity at column-level for standard_granularity_column
-      - name: almost_fiscal_quarter
 
 semantic_models:
 - name: customers
@@ -40,7 +39,7 @@ semantic_models:
     metrics.
   model: ref('fct_orders')
   defaults:
-    agg_time_dimension: date
+    agg_time_dimension: date #useful if time dim has very fine grain but queries typically roll up
   entities:
   - name: order
     type: primary
