@@ -1,3 +1,9 @@
+{{
+    config(
+        schema='sales'
+    )
+}}
+
 select
     order_key,
     sum(fct_order_items.net_item_sales_amount) as gross_revenues
