@@ -6,6 +6,6 @@
 
 select
     order_key,
-    sum(fct_order_items.net_item_sales_amount) as gross_revenues
+    sum(fct_order_items.net_item_sales_amount) * 1.5 as gross_revenues
 from {{ ref('fct_order_items') }}
 group by 1
