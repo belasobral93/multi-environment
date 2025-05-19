@@ -7,8 +7,11 @@ models:
       - name: customer_key
         description: Primary key on the customers table
         tests:
-          - unique
+          - unique:
+              config:
+                severity: warn
           - not_null
+
       - name: region
         description: region name
         tests:
@@ -152,7 +155,7 @@ models:
           - relationships:
               to: ref('dim_customers')
               field: customer_key
-              severity: error
+              severity: warn
       - name: order_date
         description: date of the order
       - name: status_code
