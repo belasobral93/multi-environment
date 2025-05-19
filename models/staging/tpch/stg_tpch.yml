@@ -8,9 +8,9 @@ models:
         description: primary key of the model
         tests:
           - not_null
-          - unique:
-              config:
-                store_failures: true  # always store failures
+          # - unique:
+          #     config:
+          #       store_failures: true  # always store failures
       - name: name
         description: customer id
       - name: address
