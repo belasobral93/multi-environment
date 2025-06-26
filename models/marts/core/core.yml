@@ -78,9 +78,11 @@ models:
  
   - name: fct_order_items
     description: order items fact table
+    config:
+        event_time: order_date
     columns:
       - name: order_item_key
-        description: '{{ doc("order_item_key") }}'
+        description: '{{ doc("order_item_key") }}' 
         tests:
           - unique:
               config:
