@@ -10,6 +10,7 @@ models:
           - unique:
               config:
                 severity: warn
+                store_failures: true
           - not_null
 
       - name: region
