@@ -1,0 +1,34 @@
+models:
+  - name: dim_customers
+    description: Customer dimensions table
+    columns:
+      - name: customer_key
+        description: Primary key on the customers table
+        tests:
+          - unique:
+              config:
+                severity: warn
+                store_failures: true
+          - not_null
+
+      - name: region
+        description: region name
+        tests:
+          - accepted_values:
+              config:
+                severity: warn
+                store_failures: true
+              arguments:
+                values: ['AFRICA', 'ASIA', 'EUROPE', 'AMERICA']
+      - name: name
+        description: customer name
+      - name: address
+        description: address of the customer
+      - name: nation
+        description: nation name
+      - name: phone_number
+        description: phone number of the customer
+      - name: account_balance
+        description: '{{ doc("account_balance") }}'
+      - name: market_segment
+        description: market segment of the customer
