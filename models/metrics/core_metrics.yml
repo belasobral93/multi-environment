@@ -6,6 +6,7 @@ metrics:
   type_params: 
     measure: 
       name: net_item_sales_amount
+  time_granularity: month 
 
 - name: avg_order_value
   label: "Average Order Value"

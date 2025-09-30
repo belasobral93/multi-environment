@@ -1,8 +1,9 @@
 with monthly_revenue as (
     select
-        order_month,
-        gross_revenue
-    from {{ ref('monthly_gross_revenue') }}
+        date_trunc('month', order_date) as order_month,
+        sum(net_item_sales_amount) as gross_revenue
+    from {{ ref('fct_order_items') }}
+    group by 1
 ),
 
 revenue_lag as (

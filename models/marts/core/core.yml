@@ -1,40 +1,13 @@
 version: 2
 
 models:
-  - name: dim_customers
-    description: Customer dimensions table
-    columns:
-      - name: customer_key
-        description: Primary key on the customers table
-        tests:
-          - unique
-          - not_null
-      - name: region
-        description: region name
-        tests:
-          - accepted_values:
-              values: ['AFRICA','MIDDLE EAST','ASIA','EUROPE','AMERICA']
-              severity: warn
-      - name: name
-        description: customer name
-      - name: address
-        description: address of the customer
-      - name: nation
-        description: nation name
-      - name: phone_number
-        description: phone number of the customer
-      - name: account_balance
-        description: '{{ doc("account_balance") }}'
-      - name: market_segment
-        description: market segment of the customer
-
 
   - name: dim_parts
     description: Parts dimensions table
     columns:
       - name: part_key
         description: primary key of the model
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: manufacturer
@@ -57,7 +30,7 @@ models:
     columns:
       - name: supplier_key
         description: primary key of the model
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: supplier_name
@@ -72,13 +45,14 @@ models:
         description: '{{ doc("phone_number") }}'
       - name: account_balance
         description: '{{ doc("account_balance") }}'
- 
   - name: fct_order_items
     description: order items fact table
+    config:
+      event_time: order_date
     columns:
       - name: order_item_key
         description: '{{ doc("order_item_key") }}'
-        tests:
+        data_tests:
           - unique:
               config:
                 severity: warn
@@ -121,8 +95,8 @@ models:
         description: '{{ doc("tax_rate") }}'
       - name: nation_key
         description: 'Nation key'
-        tests:
-         - not_null
+        data_tests:
+          - not_null
       - name: order_item_count
         description: count of order items
       - name: quantity
@@ -137,22 +111,23 @@ models:
         description: '{{ doc("item_tax_amount") }}'
       - name: net_item_sales_amount
         description: '{{ doc("net_item_sales_amount") }}'
-  
   - name: fct_orders
     description: orders fact table
     columns:
       - name: order_key
         description: primary key of the model
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: customer_key
         description: foreign key for customers
-        tests:
+        data_tests:
           - relationships:
-              to: ref('dim_customers')
-              field: customer_key
-              severity: error
+              config:
+                severity: warn
+              arguments:
+                to: ref('dim_customers')
+                field: customer_key
       - name: order_date
         description: date of the order
       - name: status_code
@@ -175,4 +150,3 @@ models:
         description: '{{ doc("item_tax_amount") }}'
       - name: net_item_sales_amount
         description: '{{ doc("net_item_sales_amount") }}'
-

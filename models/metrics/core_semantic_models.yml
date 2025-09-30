@@ -53,7 +53,7 @@ semantic_models:
     expr: order_date
     type: time
     type_params:
-      time_granularity: day
+      time_granularity: month #can set option to look at metrics defined on top of this model at different granularities
   - name: status_code
     type: categorical
   - name: priority_code

@@ -2,9 +2,9 @@ version: 2
 
 groups:
   - name: sales
-    owner: 
+    owner:
       name: sales team
-      
+
 
 models:
   # These two models are just different ways of doing the same thing (pivot over categories) using jinja and the PIVOT operation in Snowflake
@@ -20,7 +20,7 @@ models:
       - name: order_year
         description: year of the order
   - name: gross_revenue
-    description: Aggregates total gross sales revenue from the fct_order_items table. 
-    group: sales
-    access: public
-          
+    description: Aggregates total gross sales revenue from the fct_order_items table.
+    config:
+      group: sales
+      access: public
