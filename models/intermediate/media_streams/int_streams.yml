@@ -23,7 +23,7 @@ models:
           - accepted_values:
               values: [true]
               config:
-                store_failures: true 
+                store_failures: false 
       - name: has_nearby_dup
         data_tests:
           - not_null
