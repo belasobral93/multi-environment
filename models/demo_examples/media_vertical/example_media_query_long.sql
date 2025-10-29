@@ -1,7 +1,4 @@
 with
-/* =========================================================================
-   0) RAW PULLS (still source() but no staging models)
-   ========================================================================= */
 raw_streams as (
     select
         s.stream_id,
@@ -9,8 +6,8 @@ raw_streams as (
         s.title_id,
         to_timestamp_ntz(s.started_at)                          as started_at,
         coalesce(s.seconds_watched, 0)::number                  as seconds_watched,
-        coalesce(s.is_bot, false)::boolean                      as is_bot
-    from {{ source('media','streams') }} s
+        coalesce(s.is_bot, false)::boolean                      as is_bot 
+    from ANALYTICS.DBT_BELASOBRAL93.streams s
 ),
 raw_users as (
     select
@@ -18,7 +15,7 @@ raw_users as (
         u.country,
         upper(coalesce(u.signup_type, ''))                       as signup_type,
         to_date(u.signup_date)                                   as signup_date
-    from {{ source('media','users') }} u
+    from ANALYTICS.DBT_BELASOBRAL93.users u
 ),
 raw_titles as (
     select
@@ -27,7 +24,7 @@ raw_titles as (
         t.content_type,
         coalesce(t.runtime_seconds, 0)::number                  as runtime_seconds,
         coalesce(t.release_year, 0)::number                     as release_year
-    from {{ source('media','titles') }} t
+    from ANALYTICS.DBT_BELASOBRAL93.titles t
 ),
 raw_ratings as (
     select
@@ -36,12 +33,8 @@ raw_ratings as (
         r.title_id,
         coalesce(r.rating_value, null)::number                  as rating_value,
         to_timestamp_ntz(r.rated_at)                            as rated_at
-    from {{ source('media','ratings') }} r
+    from ANALYTICS.DBT_BELASOBRAL93.ratings r
 ),
-
-/* =========================================================================
-   1) BOT FILTER (and keep useless columns to be dropped later)
-   ========================================================================= */
 streams_no_bots as (
     select
         rs.stream_id,
@@ -50,15 +43,11 @@ streams_no_bots as (
         rs.started_at,
         rs.seconds_watched,
         rs.is_bot,
-        case when rs.is_bot then 'BOT' else 'HUMAN' end as bot_label  -- useless label kept on purpose
+        case when rs.is_bot then 'BOT' else 'HUMAN' end as bot_label  
     from raw_streams rs
     where coalesce(rs.is_bot, false) = false
 ),
 
-/* =========================================================================
-   2) DEDUPE: drop streams that have a *later* stream for same (user,title)
-      within 5 minutes (double-clicks). Make it verbose on purpose.
-   ========================================================================= */
 mark_possible_dups as (
     select
         a.stream_id,
@@ -87,13 +76,9 @@ streams_deduped as (
         md.seconds_watched,
         md.is_bot
     from mark_possible_dups md
-    where md.has_nearby_dup = false
+    where md.has_nearby_dup = false --raw de-duping in same file as business logic
 ),
 
-/* =========================================================================
-   3) ADD USER ATTRIBUTES (region + paid_vs_trial) with intentionally
-      redundant logic and nested CASE to make it harder to read.
-   ========================================================================= */
 streams_with_users as (
     select
         s.stream_id,
@@ -111,8 +96,7 @@ streams_with_users as (
             when upper(ru.signup_type) in ('FREE_TRIAL','TRIAL') then 'trial'
             when upper(ru.signup_type) not in ('FREE_TRIAL','TRIAL') then 'paid'
             else 'paid'
-        end as paid_vs_trial,
-        -- keep original columns to be “available”
+        end as paid_vs_trial, --business logic in same file as de-dupe 
         ru.country as country_passthrough,
         ru.signup_date as signup_date_passthrough
     from streams_deduped s
@@ -120,9 +104,6 @@ streams_with_users as (
       on ru.user_id = s.user_id
 ),
 
-/* =========================================================================
-   4) ADD TITLE ATTRIBUTES (runtime, type) with extra wrapping
-   ========================================================================= */
 streams_users_titles as (
     select
         sut.stream_id,
@@ -142,10 +123,6 @@ streams_users_titles as (
       on rt.title_id = sut.title_id
 ),
 
-/* =========================================================================
-   5) INLINE LATEST RATING PER (user,title) via window + QUALIFY,
-      but do it in an unnecessary subquery and then join back.
-   ========================================================================= */
 ratings_latest as (
     select user_id, title_id, rating_value as latest_rating
     from (
@@ -170,10 +147,6 @@ streams_all_cols as (
      and rl.title_id = sut.title_id
 ),
 
-/* =========================================================================
-   6) DERIVED PER-STREAM METRICS (active_stream, completion,
-      engagement). Purposely repeat expressions in multiple places.
-   ========================================================================= */
 per_stream_metrics as (
     select
         sac.stream_id,
@@ -188,13 +161,11 @@ per_stream_metrics as (
         sac.started_at,
         sac.seconds_watched,
         sac.latest_rating,
-        /* active stream rule repeated long-form */
         case
            when coalesce(sac.seconds_watched, 0)::number >= 120
                 and coalesce(sac.is_bot, false) = false
            then true else false
-        end as active_stream,
-        /* completion rate with redundant LEAST/GREATEST around the division */
+        end as active_stream, -- active stream defined here 
         least(
           greatest(
             coalesce(sac.seconds_watched,0)::float / nullif(sac.runtime_seconds, 0),
@@ -202,15 +173,10 @@ per_stream_metrics as (
           ),
           1.0
         ) as completion_rate,
-        /* engagement minutes as float with repeated cast */
         (coalesce(sac.seconds_watched,0)::float / 60.0) as engagement_minutes
     from streams_all_cols sac
 ),
 
-/* =========================================================================
-   7) SAME THING AGAIN (ON PURPOSE): another layer that re-derives
-      some columns to make the query look busier.
-   ========================================================================= */
 per_stream_metrics_again as (
     select
         psm.stream_id,
@@ -225,12 +191,10 @@ per_stream_metrics_again as (
         psm.started_at,
         psm.seconds_watched,
         psm.latest_rating,
-        /* re-state active_stream with IFF + CASE nested unnecessarily */
         case
           when psm.active_stream then true
           else iff(psm.seconds_watched >= 120, true, false)
-        end as active_stream,
-        -- recompute completion using identical math but with extra COALESCE
+        end as active_stream, -- active stream defined here x2
         least(
           greatest(
             coalesce(psm.seconds_watched::float, 0.0)
@@ -239,29 +203,16 @@ per_stream_metrics_again as (
           ),
           1.0
         ) as completion_rate,
-        /* engagement again with extra wrapper */
         (coalesce(psm.seconds_watched,0)::float / 60.0) as engagement_minutes
     from per_stream_metrics psm
 ),
 
-/* =========================================================================
-   8) EXPENSIVE VIEW OF DATES (pointless, but lengthens)
-   ========================================================================= */
 stream_dates as (
     select
       psma.stream_id,
       date_trunc('day', psma.started_at) as stream_date
     from per_stream_metrics_again psma
 ),
-
-/* =========================================================================
-   9) JOIN DATES BACK (extra join), then aggregate.
-      NOTE: Joins count:
-        - streams ↔ users (section 3)
-        - streams ↔ titles (section 4)
-        - streams ↔ ratings (section 5)
-      We’ll add one more join to stream_dates just to be noisy.
-   ========================================================================= */
 with_dates as (
     select
         psma.stream_id,
@@ -283,9 +234,6 @@ with_dates as (
       on sd.stream_id = psma.stream_id
 )
 
-/* =========================================================================
-   10) FINAL AGGREGATION
-   ========================================================================= */
 select
     wd.stream_date                                           as stream_date,
     wd.title_id                                              as title_id,
@@ -294,7 +242,6 @@ select
     wd.region_bucket                                         as region_bucket,
     wd.paid_vs_trial                                         as paid_vs_trial,
 
-    -- use SUM(CASE WHEN) instead of COUNT_IF to be noisy
     sum(case when wd.active_stream then 1 else 0 end)        as streams,
 
     count(distinct case when wd.active_stream then wd.user_id end)
