@@ -1,0 +1,9 @@
+sources:
+  - name: media
+    database: ANALYTICS
+    schema: DBT_BELASOBRAL93
+    tables:
+      - name: titles
+      - name: users
+      - name: streams
+      - name: ratings
