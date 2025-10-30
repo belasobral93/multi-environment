@@ -1,5 +1,3 @@
-{{ config(materialized='table') }}
-
 
 with streams as (
     select * from {{ ref('fct_streams') }}
