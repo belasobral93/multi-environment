@@ -6,7 +6,7 @@ with customer_order_seed as (
 customer_order_summary as (
     -- Aggregating customer-level order metrics
     select
-        NULL as customer_key,
+        customer_key,
         name,
         region,
         nation,

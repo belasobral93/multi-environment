@@ -39,6 +39,9 @@ sources:
 
       - name: customer
         description: main customer table
+        config: 
+          freshness: 
+            warn_after: {count: 1, period: hour}
         columns:
           - name: c_custkey
             description: unique customer key
