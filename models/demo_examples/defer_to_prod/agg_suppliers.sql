@@ -10,10 +10,10 @@ with supplier_aggregated as (
     select
         region,
         nation,
-        count(distinct supplier_key) as supplier_count,
+        count(distinct supplier_key) as supplier_counts,
         sum(account_balance) as total_account_balance
     from
-        {{ ref('dim_suppliers') }}  -- when using defer, will reference the prod version of upstream model
+        {{ ref('dim_suppliers') }}  -- when using defer, will reference the higher env version of upstream model
     group by
         region,
         nation

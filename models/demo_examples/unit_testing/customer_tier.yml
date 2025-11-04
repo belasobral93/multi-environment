@@ -6,7 +6,9 @@ models:
     columns:
       - name: customer_key
         data_tests:
-          - unique
+          - unique:
+              config:
+                store_failures: true  # always store failures
       - name: lifetime_value
       - name: tier_name
   

@@ -12,3 +12,4 @@
 }}
 
 select * from {{ ref('fct_orders_microbatch') }}
+order by order_date desc

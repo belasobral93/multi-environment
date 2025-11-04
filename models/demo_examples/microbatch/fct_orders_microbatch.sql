@@ -4,7 +4,7 @@
         incremental_strategy='microbatch',
         event_time='order_time',
         batch_size='day',
-        lookback=3,
+        lookback=5,
         begin='2025-01-11',
         full_refresh=False,
         tags = ['finance']
@@ -55,7 +55,8 @@ final as (
         order_item_summary.item_tax_amount,
         order_item_summary.net_item_sales_amount,
         case
-            when order_date = '2024-09-21' then null
+            when order_date = '2024-09-20' then null
+            -- when order_date = '2024-09-20' then 1/0
             else gross_item_sales_amount
         end as gross_item_sales_amount
     from
