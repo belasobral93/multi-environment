@@ -16,7 +16,7 @@ s1 as (
             )
           )
         else
-          try_to_timestamp_ntz(to_varchar(s.started_at))        -- ISO-ish strings
+          try_to_timestamp_ntz(to_varchar(s.started_at))       
       end as started_at,
 
       greatest(coalesce(try_to_number(s.seconds_watched),0),0)::number as seconds_watched,
