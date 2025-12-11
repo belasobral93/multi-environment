@@ -20,11 +20,11 @@ models:
       - name: is_bot
         data_tests:
           - not_null
-          # - accepted_values:
-          #     severity: warn
-          #     # values: [true] -- update dataset to fail "false"
-          #     config:
-          #       store_failures: true 
+          - accepted_values:
+              severity: error
+              values: [false] 
+              config:
+                store_failures: true 
       - name: has_nearby_dup
         data_tests:
           - not_null

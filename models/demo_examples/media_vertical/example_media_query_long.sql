@@ -10,13 +10,13 @@ s1 as (
         when try_to_number(to_varchar(s.started_at)) is not null then
           to_timestamp_ntz(
             iff(
-              try_to_number(to_varchar(s.started_at)) > 1000000000000,
+            try_to_number(to_varchar(s.started_at)) > 1000000000000,
               try_to_number(to_varchar(s.started_at)) / 1000,   -- ms → sec
               try_to_number(to_varchar(s.started_at))           -- sec
             )
           )
         else
-          try_to_timestamp_ntz(to_varchar(s.started_at))        -- ISO-ish strings
+          try_to_timestamp_ntz(to_varchar(s.started_at))       
       end as started_at,
 
       greatest(coalesce(try_to_number(s.seconds_watched),0),0)::number as seconds_watched,
