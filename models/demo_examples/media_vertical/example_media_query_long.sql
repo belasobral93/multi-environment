@@ -10,7 +10,7 @@ s1 as (
         when try_to_number(to_varchar(s.started_at)) is not null then
           to_timestamp_ntz(
             iff(
-              try_to_number(to_varchar(s.started_at)) > 1000000000000,
+            try_to_number(to_varchar(s.started_at)) > 1000000000000,
               try_to_number(to_varchar(s.started_at)) / 1000,   -- ms → sec
               try_to_number(to_varchar(s.started_at))           -- sec
             )
